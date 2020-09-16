@@ -1,0 +1,5 @@
+{"_comments": ["Example config for www.habitdash.com"],
+  "url":  "https://api.habitdash.com/v1/fields/",
+  "accept": "application/json",
+"api-key":  "INSERT-KEY-HERE"
+}
