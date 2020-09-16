@@ -21,6 +21,6 @@ This is a repository with Python tools for analysing the WHOOP data retrieved us
 # TO-DO
 Roadmap for the next couple of months:
 - [X] Write the first README
-- [ ] Migrate existing .py & .JSON from projects repository
+- [ ] Migrate existing .py & .JSON from [projects](http://github.com/philip-papasavvas/projects) repository
 - [ ] Interpret output from habitdash API, and store keys & fields
 - [ ] Develop new, novel plots for visualising data
