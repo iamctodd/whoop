@@ -142,5 +142,11 @@ def find(folder_path, pattern='.*', full_path=False, expect_one=True):
     return files
 
 
+def difference(a, b):
+    """Give difference between two iterables by keeping values in first"""
+    set_a, set_b = set(a), set(b)
+    return set_a.difference(set_b)
+
+
 if __name__ == '__main__':
     pass
