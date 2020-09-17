@@ -14,41 +14,44 @@ pd.set_option("display.max_columns", 10)
 pd.set_option("display.width", 600)
 
 
-def clean_input_whoop_data(input_data: pd.DataFrame) -> pd.DataFrame:
+def clean_input_whoop_data(input_data: pd.DataFrame,
+                           is_flat_file: bool = True) -> pd.DataFrame:
     """Method to clean input Whoop dataframe from HabitDash.com
 
     Args:
         input_data: Input csv titled "YYYY-MM-DD Habit Dash (flat file).csv", sourced from
         habitdash.com and exported as ZIP file containing the aforementioned csv
+        is_flat_file: If False, use the DataFrame from the habitdash.com API
 
     Returns:
         pd.DataFrame: Cleaned data with columns ['date', 'field', 'value']
     """
-    assert 'date' in input_data.columns, "Input data does not have a valid 'date' column"
+    if is_flat_file:
+        assert 'date' in input_data.columns, "Input data does not have a valid 'date' column"
 
-    print(f"Reading input data, {input_data['date'].nunique()} "
-          f"days worth of data...")
+        print(f"Reading input data, {input_data['date'].nunique()} "
+              f"days worth of data...")
 
-    # rename the field column
-    new_field_name_map = \
-        {k: k.replace("whoop_", "") for k in input_data['field'].unique()}
+        # rename the field column
+        new_field_name_map = {k: k.replace("whoop_", "") for k in input_data['field'].unique()}
 
-    input_data['field'] = input_data['field'].map(new_field_name_map)
-    input_data.drop('source', axis=1, inplace=True)
-    input_data['date'] = pd.to_datetime(input_data['date'])
+        input_data['field'] = input_data['field'].map(new_field_name_map)
+        input_data.drop('source', axis=1, inplace=True)
+        input_data['date'] = pd.to_datetime(input_data['date'])
+    else:
+        print("Haven't yet configured cleaning WHOOP data from habitdash.com API...")
 
     return input_data
 
 
 if __name__ == "__main__":
-    # --- READ WHOOP DATA
+    # -----------------
+    # READ & CLEAN DATA
+    # -----------------
     data_dir = "/Users/philip_p/Documents/whoop/"
-    # os.listdir(data_dir)
 
     habit_dash_df = pd.read_csv(f"{data_dir}/2020-06-12 Habit Dash (flat file).csv")
-
     cleaned_df = clean_input_whoop_data(input_data=habit_dash_df)
-
     cleaned_df['date'].min()
 
     # exploratory data analysis at the file
@@ -75,8 +78,7 @@ if __name__ == "__main__":
     cleaned_df.head(3)
 
     summary_df = cleaned_df.loc[cleaned_df['field'].isin(
-        ['recovery_score', 'recovery_rhr', 'recovery_hrv', 'sleep_score_total'])
-    ]
+        ['recovery_score', 'recovery_rhr', 'recovery_hrv', 'sleep_score_total'])]
 
     pca_df = pd.pivot(
         data=summary_df,
@@ -145,6 +147,7 @@ if __name__ == "__main__":
         palette=['red', 'orange', 'green']
     )
     rhr_ax.set_title("WHOOP Correlation: RHR v Recovery Score")
+    rhr_ax.clf()
 
     sleep_ax = sns.scatterplot(
         x='sleep_score_total',
