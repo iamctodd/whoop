@@ -6,10 +6,10 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from utils import to_array
+from utils import to_array, difference
 
 
-class MyTestCase(unittest.TestCase):
+class TestUtils(unittest.TestCase):
     def test_to_array__list_ints(self):
         # lists - ints: check get same results as using np.array(list)
         list_ints = [1, 2, 3]
@@ -104,6 +104,11 @@ class MyTestCase(unittest.TestCase):
         z = [i for i in to_array(*pds)]
         for j in range(len(z)):
             np.testing.assert_array_equal(z[j], y[j])
+
+    def test_difference(self):
+        self.assertEqual(difference([3, 10, 9], [3, 4, 10]),
+                         {9},
+                         "Difference function not working as expected")
 
 
 if __name__ == '__main__':
