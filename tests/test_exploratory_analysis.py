@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from pandas import Timestamp
 
-from development.exploratory_analysis import clean_input_whoop_data
+from development.exploratory_analysis import clean_input_data
 
 
 class TestExploratoryAnalysis(unittest.TestCase):
@@ -20,8 +20,8 @@ class TestExploratoryAnalysis(unittest.TestCase):
              })
 
         pd.testing.assert_frame_equal(
-            clean_input_whoop_data(input_data=sample_input_df,
-                                   is_flat_file=True),
+            clean_input_data(input_data=sample_input_df,
+                             is_flat_file=True),
             pd.DataFrame(
                 {'date': {0: Timestamp('2020-03-14 00:00:00'),
                           1: Timestamp('2020-03-14 00:00:00'),

@@ -14,8 +14,8 @@ pd.set_option("display.max_columns", 10)
 pd.set_option("display.width", 600)
 
 
-def clean_input_whoop_data(input_data: pd.DataFrame,
-                           is_flat_file: bool = True) -> pd.DataFrame:
+def clean_input_data(input_data: pd.DataFrame,
+                     is_flat_file: bool = True) -> pd.DataFrame:
     """Method to clean input Whoop dataframe from HabitDash.com
 
     Args:
@@ -51,15 +51,17 @@ if __name__ == "__main__":
     data_dir = "/Users/philip_p/Documents/whoop/"
 
     habit_dash_df = pd.read_csv(f"{data_dir}/2020-06-12 Habit Dash (flat file).csv")
-    cleaned_df = clean_input_whoop_data(input_data=habit_dash_df)
+    cleaned_df = clean_input_data(input_data=habit_dash_df)
     cleaned_df['date'].min()
 
     # exploratory data analysis at the file
     # cleaned_df['field'].nunique()  # 31 measures
-
     # macro_fields = {x.split("_")[0] for x in cleaned_df['field'].unique()}
 
-    # recovery score plotting
+    # -------------------------
+    # PLOTTING - RECOVERY SCORE
+    # -------------------------
+
     recovery = cleaned_df.loc[cleaned_df['field'] == 'recovery_score'].copy(True)
     recovery['colour'] = pd.cut(x=recovery['value'],
                                 bins=[0, 33, 67, 100],
@@ -73,7 +75,9 @@ if __name__ == "__main__":
     recover_plot = sns.scatterplot(x='date', y='value',
                                    data=recovery)
 
-    # principal component analysis
+    # -------------
+    # ROUGH IDEA OF LOOKING AT PCA - principal component analysis
+    # -------------
     # recovery (for next day) is response variable, inputs are HRV, sleep score, RHR
     cleaned_df.head(3)
 
@@ -136,7 +140,9 @@ if __name__ == "__main__":
     )
     hrv_ax.set_title("WHOOP Correlation: HRV v Recovery Score")
 
-    # correlation
+    # -----------
+    # CORRELATION - Resting Heart Rate v Recovery
+    # -----------
     pca_df.corr()
 
     rhr_ax = sns.scatterplot(
@@ -149,6 +155,9 @@ if __name__ == "__main__":
     rhr_ax.set_title("WHOOP Correlation: RHR v Recovery Score")
     rhr_ax.clf()
 
+    # -----------
+    # CORRELATION - Sleep score v Recovery
+    # -----------
     sleep_ax = sns.scatterplot(
         x='sleep_score_total',
         y='recovery_score',
