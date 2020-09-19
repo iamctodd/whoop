@@ -80,7 +80,9 @@ def db_keys_and_symbols(is_arctic: bool,
 
     # Non arctic keys
     if is_arctic is False:
-        cl = db_connect(is_arctic=False, lib_name=library_name)
+        cl = db_connect(is_arctic=False,
+                        lib_name=library_name,
+                        mongo_config=mongo_config)
         try:
             docs = cl.find_one()
             keys = []
@@ -234,7 +236,7 @@ if __name__ == '__main__':
     mongo_cfg = json.load(open(mongo_path, 'r'))
 
     # config structure
-    mongo_cfg = {
+    mongo_config_example = {
         'mongo_user': 'USERNAME',
         'mongo_pwd': 'MONGO-PASSWORD-HERE',
         'url_cluster': 'MONGODB-ATLAS-CLUSTER-HERE'
