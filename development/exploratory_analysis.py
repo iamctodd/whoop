@@ -58,44 +58,66 @@ if __name__ == "__main__":
     # cleaned_df['field'].nunique()  # 31 measures
     # macro_fields = {x.split("_")[0] for x in cleaned_df['field'].unique()}
 
-    # -------------------------
-    # PLOTTING - RECOVERY SCORE
-    # -------------------------
+    recovery_metrics_df = cleaned_df.loc[cleaned_df['field'].isin(
+        ['recovery_score', 'recovery_rhr', 'recovery_hrv', 'sleep_score_total'])]
 
-    recovery = cleaned_df.loc[cleaned_df['field'] == 'recovery_score'].copy(True)
-    recovery['colour'] = pd.cut(x=recovery['value'],
-                                bins=[0, 33, 67, 100],
-                                labels=['red', 'yellow', 'green'])
-    sns.set_style('darkgrid')
-    recover_plot = sns.lineplot(x='date', y='value',
-                                data=recovery)
-    recover_plot.axes.axhline(y=33, color='yellow')
-    recover_plot.axes.axhline(y=67, color='green')
+    recovery_metrics_pivoted = pd.pivot(
+        data=recovery_metrics_df,
+        index='date',
+        columns='field'
+    )
+    recovery_metrics_pivoted.columns = list(recovery_metrics_pivoted.columns.get_level_values(1))
+    recovery_metrics_pivoted['status'] = pd.cut(x=recovery_metrics_pivoted['recovery_score'],
+                                                bins=[0, 33, 67, 100],
+                                                labels=['red', 'yellow', 'green'])
 
-    recover_plot = sns.scatterplot(x='date', y='value',
-                                   data=recovery)
+    # --------
+    # PLOTTING
+    # --------
+
+    # recovery score (response) v HRV (independent)
+    hrv_ax = sns.scatterplot(
+        x='recovery_hrv',
+        y='recovery_score',
+        data=recovery_metrics_pivoted,
+        hue='status',
+        palette=['red', 'orange', 'green']
+    )
+    hrv_ax.set_title("WHOOP Correlation: HRV v Recovery Score")
+    # plt.savefig(os.path.join(os.getcwd(), 'images', 'hrv_recovery_scatterplot.png'))
+
+    # recovery score (response) v Resting Heart Rate (independent)
+    rhr_ax = sns.scatterplot(
+        x='recovery_rhr',
+        y='recovery_score',
+        data=recovery_metrics_pivoted,
+        hue='status',
+        palette=['red', 'orange', 'green']
+    )
+    rhr_ax.set_title("WHOOP Correlation: RHR v Recovery Score")
+    # plt.savefig(os.path.join(os.getcwd(), 'images', 'recovery_rhr_scatterplot.png'))
+
+    # recovery score (response) v sleep score (independent)
+    sleep_ax = sns.scatterplot(
+        x='sleep_score_total',
+        y='recovery_score',
+        data=recovery_metrics_pivoted,
+        hue='status',
+        palette=['red', 'orange', 'green']
+    )
+    sleep_ax.set_title("WHOOP Correlation: Sleep Score v Recovery Score")
+    # plt.savefig(os.path.join(os.getcwd(), 'images', 'recovery_sleep score_scatterplot.png'))
 
     # -------------
     # ROUGH IDEA OF LOOKING AT PCA - principal component analysis
     # -------------
     # recovery (for next day) is response variable, inputs are HRV, sleep score, RHR
-    cleaned_df.head(3)
-
-    summary_df = cleaned_df.loc[cleaned_df['field'].isin(
-        ['recovery_score', 'recovery_rhr', 'recovery_hrv', 'sleep_score_total'])]
-
-    pca_df = pd.pivot(
-        data=summary_df,
-        index='date',
-        columns='field'
-    )
-    pca_df.columns = list(pca_df.columns.get_level_values(1))
 
     from sklearn.preprocessing import StandardScaler
 
     features = ['recovery_hrv', 'recovery_rhr', 'sleep_score_total']
-    x = pca_df.loc[:, features].values
-    y = pca_df.loc[:, 'recovery_score'].values
+    x = recovery_metrics_pivoted.loc[:, features].values
+    y = recovery_metrics_pivoted.loc[:, 'recovery_score'].values
 
     x = StandardScaler().fit_transform(x)
 
@@ -109,7 +131,7 @@ if __name__ == "__main__":
         columns=['pc_one', 'pc_two']
     )
 
-    final_df = pd.concat([principal_df, pca_df['recovery_score']], axis=1)
+    final_df = pd.concat([principal_df, recovery_metrics_pivoted['recovery_score']], axis=1)
 
     fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(1, 1, 1)
@@ -122,47 +144,18 @@ if __name__ == "__main__":
     # look at correlation between HRV, sleep performance and RHR and Recovery score
     from scipy.stats import spearmanr, pearsonr
 
-    hrv_corr, _ = spearmanr(pca_df['recovery_hrv'], pca_df['recovery_score'])
-    hrv_corr_pearson, _ = pearsonr(pca_df['recovery_hrv'], pca_df['recovery_score'])
-    rhr_corr, _ = spearmanr(pca_df['recovery_rhr'], pca_df['recovery_score'])
-    sleep_performance_corr, _ = spearmanr(pca_df['sleep_score_total'], pca_df['recovery_score'])
+    hrv_corr, _ = spearmanr(recovery_metrics_pivoted['recovery_hrv'],
+                            recovery_metrics_pivoted['recovery_score'])
+    hrv_corr_pearson, _ = pearsonr(recovery_metrics_pivoted['recovery_hrv'],
+                                   recovery_metrics_pivoted['recovery_score'])
+    rhr_corr, _ = spearmanr(recovery_metrics_pivoted['recovery_rhr'],
+                            recovery_metrics_pivoted['recovery_score'])
+    sleep_performance_corr, _ = spearmanr(recovery_metrics_pivoted['sleep_score_total'],
+                                          recovery_metrics_pivoted['recovery_score'])
 
-    pca_df_detailed = pca_df.copy(True)
+    pca_df_detailed = recovery_metrics_pivoted.copy(True)
     pca_df_detailed['status'] = pd.cut(x=pca_df_detailed['recovery_score'],
                                        bins=[0, 33, 67, 100],
                                        labels=['red', 'yellow', 'green'])
-    hrv_ax = sns.scatterplot(
-        x='recovery_hrv',
-        y='recovery_score',
-        data=pca_df_detailed,
-        hue='status',
-        palette=['red', 'orange', 'green']
-    )
-    hrv_ax.set_title("WHOOP Correlation: HRV v Recovery Score")
+    recovery_metrics_pivoted.corr()
 
-    # -----------
-    # CORRELATION - Resting Heart Rate v Recovery
-    # -----------
-    pca_df.corr()
-
-    rhr_ax = sns.scatterplot(
-        x='recovery_rhr',
-        y='recovery_score',
-        data=pca_df_detailed,
-        hue='status',
-        palette=['red', 'orange', 'green']
-    )
-    rhr_ax.set_title("WHOOP Correlation: RHR v Recovery Score")
-    rhr_ax.clf()
-
-    # -----------
-    # CORRELATION - Sleep score v Recovery
-    # -----------
-    sleep_ax = sns.scatterplot(
-        x='sleep_score_total',
-        y='recovery_score',
-        data=pca_df_detailed,
-        hue='status',
-        palette=['red', 'orange', 'green']
-    )
-    sleep_ax.set_title("WHOOP Correlation: Sleep Score v Recovery Score")
