@@ -1,5 +1,5 @@
 # WHOOP
-![WHOOP](https://everipedia-storage.s3.amazonaws.com/ProfilePicture/en/whoop-company/__00541.png)
+<img src="https://everipedia-storage.s3.amazonaws.com/ProfilePicture/en/whoop-company/__00541.png" width='800'>
 
 <p align="left">
     <a href="https://www.python.org/">
@@ -25,3 +25,12 @@ Roadmap for the next couple of months:
 - [X] Migrate existing .py & .JSON from [projects](http://github.com/philip-papasavvas/projects) repository
 - [ ] Interpret output from habitdash API, and store keys & fields
 - [ ] Develop new, novel plots for visualising data
+
+# Plots & Ideas
+Find below an example of some plots I mocked up, mainly focusing on how different metrics affect the Recovery Score:
+
+<img src="https://github.com/philip-papasavvas/whoop/blob/master/images/hrv_recovery_scatterplot.png" width='400'>
+
+<img src="https://github.com/philip-papasavvas/whoop/blob/master/images/recovery_rhr_scatterplot.png" width='400'>
+
+<img src="https://github.com/philip-papasavvas/whoop/blob/master/images/recovery_sleep_score_scatterplot.png" width='400'>
