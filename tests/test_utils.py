@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from utils import to_array, difference
+from utils import to_array, difference, df_columns_to_dict
 
 
 class TestUtils(unittest.TestCase):
@@ -109,6 +109,16 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(difference([3, 10, 9], [3, 4, 10]),
                          {9},
                          "Difference function not working as expected")
+
+    def test_df_columns_to_dict(self):
+        self.assertEqual(
+            df_columns_to_dict(df=pd.DataFrame(
+                {'A': [1, 2, 3, 4],
+                 'B': ['one', 'two', 'three', 'four']}),
+                columns=['A', 'B']
+            ),
+            {1: 'one', 2: 'two', 3: 'three', 4: 'four'}
+        )
 
 
 if __name__ == '__main__':

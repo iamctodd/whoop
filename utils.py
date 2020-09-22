@@ -148,5 +148,11 @@ def difference(a, b):
     return set_a.difference(set_b)
 
 
+def df_columns_to_dict(df: pd.DataFrame, columns: list):
+    """Convenience function to create a dict from the dataframe columns"""
+    assert len(columns) == 2, "Cannot produce a dict if two columns not specified"
+    return dict(zip(df[columns[0]], df[columns[1]]))
+
+
 if __name__ == '__main__':
     pass
