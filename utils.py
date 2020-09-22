@@ -13,7 +13,8 @@ import numpy as np
 import pandas as pd
 
 
-def to_array(*args: Union[np.ndarray, list, tuple, pd.Series, np.datetime64, dt.datetime]):
+def to_array(*args: Union[np.ndarray, list, tuple, pd.Series, np.datetime64, dt.datetime, None,
+                          int, float, str, bool]):
     """Turning x into np.ndarray
 
     Yields:
@@ -24,7 +25,7 @@ def to_array(*args: Union[np.ndarray, list, tuple, pd.Series, np.datetime64, dt.
 
     Example
     >>> import numpy as np
-    >>> x,y,z = to_array(2,["a","b"],None)
+    >>> x,y,z = to_array(2, ["a","b"], None)
     >>> date_array, =  to_array(np.datetime64("2019-01-01"))
     """
 
@@ -75,8 +76,9 @@ def find(folder_path, pattern='.*', full_path=False, expect_one=True):
         list of str: If multiple files are found
 
     Note:
-        This function can only handle same search pattern for every folderPath, and will return the first one it finds \
-        if there are multiple folderPath. If it cannot find any, it will raise exceptions about the first folderPath
+        This function can only handle same search pattern for every folderPath, and will return
+        the first one it finds if there are multiple folderPath. If it cannot find any, it will
+        raise exceptions about the first folderPath
 
     Raises:
         FileNotFoundError: If folderPath(s) or pattern(s) does not match any findings

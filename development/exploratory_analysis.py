@@ -29,8 +29,7 @@ def clean_input_data(input_data: pd.DataFrame,
     if is_flat_file:
         assert 'date' in input_data.columns, "Input data does not have a valid 'date' column"
 
-        print(f"Reading input data, {input_data['date'].nunique()} "
-              f"days worth of data...")
+        print(f"Reading input data, {input_data['date'].nunique()} days worth of data...")
 
         # rename the field column
         new_field_name_map = {k: k.replace("whoop_", "") for k in input_data['field'].unique()}
@@ -106,7 +105,7 @@ if __name__ == "__main__":
         palette=['red', 'orange', 'green']
     )
     sleep_ax.set_title("WHOOP Correlation: Sleep Score v Recovery Score")
-    # plt.savefig(os.path.join(os.getcwd(), 'images', 'recovery_sleep score_scatterplot.png'))
+    # plt.savefig(os.path.join(os.getcwd(), 'images', 'recovery_sleep_score_scatterplot.png'))
 
     # -------------
     # ROUGH IDEA OF LOOKING AT PCA - principal component analysis
