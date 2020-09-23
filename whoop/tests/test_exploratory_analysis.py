@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from pandas import Timestamp
 
-from development.exploratory_analysis import clean_input_data
+from whoop.development.exploratory_analysis import clean_input_data
 
 
 class TestExploratoryAnalysis(unittest.TestCase):

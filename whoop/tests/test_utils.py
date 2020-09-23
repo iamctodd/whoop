@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from utils import to_array, difference, df_columns_to_dict
+from whoop.utils import to_array, difference, df_columns_to_dict
 
 
 class TestUtils(unittest.TestCase):

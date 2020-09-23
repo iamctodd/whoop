@@ -11,8 +11,8 @@ import unittest
 
 from pymongo import MongoClient
 
-from database import (db_connect, db_keys_and_symbols, db_arctic_library,
-                      db_arctic_read)
+from whoop.database import (db_connect, db_keys_and_symbols, db_arctic_library,
+                            db_arctic_read)
 
 
 class TestMongoDB(unittest.TestCase):

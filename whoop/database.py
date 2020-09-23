@@ -1,6 +1,6 @@
 """
 Created: 13 Oct 2019
-mongoDB Atlas: initialise, write, append, read to library
+mongoDB Cloud Atlas: initialise, write, append, read to library
 """
 import json
 from typing import Union
