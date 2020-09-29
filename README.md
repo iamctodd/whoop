@@ -18,6 +18,10 @@ WHOOP is a fitness wearable:
 # Objective
 This is a repository with Python tools for analysing the WHOOP data retrieved using the www.habitdash.com API and data download functionality.
 
+## Update
+WHOOP have now disconnected their API with Habitdash.com, therefore I cannot
+source the data and unfortunately cannot continue with this project any longer!
+
 # TO-DO
 Roadmap for the next couple of months:
 - [X] Write the first README
