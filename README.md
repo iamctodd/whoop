@@ -19,15 +19,17 @@ WHOOP is a fitness wearable:
 This is a repository with Python tools for analysing the WHOOP data retrieved using the www.habitdash.com API and data download functionality.
 
 ## Update
-WHOOP have now disconnected their API with Habitdash.com, therefore I cannot
-source the data and unfortunately cannot continue with this project any longer!
+WHOOP have now disconnected their API with Habitdash.com.
+
+However, I can still download a CSV file of my data, and therefore I will explore analysing 
+some of the data output!
 
 # TO-DO
 Roadmap for the next couple of months:
 - [X] Write the first README
 - [X] Add a requirements.txt and try to run some methods on a venv
 - [X] Migrate existing .py & .JSON from [projects](http://github.com/philip-papasavvas/projects) repository
-- [ ] Interpret output from habitdash API, and store keys & fields
+- [X] ~~Interpret output from habitdash API, and store keys & fields~~
 - [ ] Develop new, novel plots for visualising data
 
 # Plots & Ideas
