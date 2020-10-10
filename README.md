@@ -35,8 +35,8 @@ Roadmap for the next couple of months:
 # Plots & Ideas
 Find below an example of some plots I mocked up, mainly focusing on how different metrics affect the Recovery Score:
 
-<img src="https://github.com/philip-papasavvas/whoop/images/hrv_recovery_scatterplot.png" width='400'>
+<img src="https://github.com/philip-papasavvas/whoop/blob/master/whoop/images/hrv_recovery_scatterplot.png" width='400'>
 
-<img src="https://github.com/philip-papasavvas/whoop/images/recovery_rhr_scatterplot.png" width='400'>
+<img src="https://github.com/philip-papasavvas/whoop/blob/master/whoop/images/recovery_rhr_scatterplot.png" width='400'>
 
-<img src="https://github.com/philip-papasavvas/whoop/images/recovery_sleep_score_scatterplot.png" width='400'>
+<img src="https://github.com/philip-papasavvas/whoop/blob/master/whoop/images/recovery_sleep_score_scatterplot.png" width='400'>
